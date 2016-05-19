@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "Generator\Generator.csproj", "{AB84A59B-7943-4FB6-A13D-9E3B033DA3DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.UnitTests", "Generator.UnitTests\Generator.UnitTests.csproj", "{24FE1607-7CFC-4015-A202-D59B9F1246D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.Entities", "Generator.Entities\Generator.Entities.csproj", "{D2601C3C-1AB1-4E01-9B04-BA828347D3DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.Services", "Generator.Services\Generator.Services.csproj", "{C2372309-EC8F-469D-97B5-1F52E4569783}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.Settings", "Generator.Settings\Generator.Settings.csproj", "{B98DC411-25E2-426E-B8B6-A670D894274C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.DatabaseContext", "Generator.DatabaseContext\Generator.DatabaseContext.csproj", "{BFACF24A-40FE-47C6-BE94-3BED34A185E2}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://generator-project.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Generator.DatabaseContext\\Generator.DatabaseContext.csproj
+		SccProjectName1 = Generator.DatabaseContext
+		SccLocalPath1 = Generator.DatabaseContext
+		SccProjectUniqueName2 = Generator.Entities\\Generator.Entities.csproj
+		SccProjectName2 = Generator.Entities
+		SccLocalPath2 = Generator.Entities
+		SccProjectUniqueName3 = Generator.Services\\Generator.Services.csproj
+		SccProjectName3 = Generator.Services
+		SccLocalPath3 = Generator.Services
+		SccProjectUniqueName4 = Generator.Settings\\Generator.Settings.csproj
+		SccProjectName4 = Generator.Settings
+		SccLocalPath4 = Generator.Settings
+		SccProjectUniqueName5 = Generator.UnitTests\\Generator.UnitTests.csproj
+		SccProjectName5 = Generator.UnitTests
+		SccLocalPath5 = Generator.UnitTests
+		SccProjectUniqueName6 = Generator\\Generator.csproj
+		SccProjectName6 = Generator
+		SccLocalPath6 = Generator
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB84A59B-7943-4FB6-A13D-9E3B033DA3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB84A59B-7943-4FB6-A13D-9E3B033DA3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB84A59B-7943-4FB6-A13D-9E3B033DA3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB84A59B-7943-4FB6-A13D-9E3B033DA3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FE1607-7CFC-4015-A202-D59B9F1246D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FE1607-7CFC-4015-A202-D59B9F1246D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FE1607-7CFC-4015-A202-D59B9F1246D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FE1607-7CFC-4015-A202-D59B9F1246D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2601C3C-1AB1-4E01-9B04-BA828347D3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2601C3C-1AB1-4E01-9B04-BA828347D3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2601C3C-1AB1-4E01-9B04-BA828347D3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2601C3C-1AB1-4E01-9B04-BA828347D3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2372309-EC8F-469D-97B5-1F52E4569783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2372309-EC8F-469D-97B5-1F52E4569783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2372309-EC8F-469D-97B5-1F52E4569783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2372309-EC8F-469D-97B5-1F52E4569783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98DC411-25E2-426E-B8B6-A670D894274C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98DC411-25E2-426E-B8B6-A670D894274C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98DC411-25E2-426E-B8B6-A670D894274C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98DC411-25E2-426E-B8B6-A670D894274C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFACF24A-40FE-47C6-BE94-3BED34A185E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFACF24A-40FE-47C6-BE94-3BED34A185E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFACF24A-40FE-47C6-BE94-3BED34A185E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFACF24A-40FE-47C6-BE94-3BED34A185E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

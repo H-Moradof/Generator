@@ -1,0 +1,123 @@
+﻿$(function () {
+    Pager(1, 5, "[ModelName]", DataRefresh[ModelName](1, 5, $('#sort-[ModelName]').val()));
+
+    CreateHandler();
+    NewHandler();
+    SortArrow();
+
+    $('#tbl-[ModelName] tbody tr:first input').keypress(function (e) {
+        if (e.which == 13) {
+            LoadData(1);
+            return false;
+        }
+    });
+
+    $('#tbl-[ModelName] tbody tr:first select').bind('change keyup', function (e) {
+        LoadData(1);
+    });
+});
+
+function DataRefresh[ModelName](pageNumber, pageSize, orderColumn) {
+    var rowcount = 0;
+
+    var jsonParams = $('#frm-tbl-[ModelName]').serialize() + "&_pageNumber=" + pageNumber + "&_pageSize=" + pageSize + "&_orderColumn=" + orderColumn;
+
+    Ajax('Post', '/WarehouseSchema/[ModelName]/_List', jsonParams, function (data, textStatus, xhr) {
+
+        $('#tbl-[ModelName] tbody tr').not(':first').remove();
+
+        var json = JSON.parse(data.Values);
+
+        var tr;
+
+        for (var i = 0; i < json.length; i++) {
+
+            tr = $('<tr/>');
+                
+			[BodyRow]
+
+            tr.append("<td data-th='ویرایش/حذف'><a onmousedown = Update(" + json[i].[ModelName].[PropertyName] + ") title='ویرایش'><span class='glyphicon glyphicon-pencil icon'></span></a> <a onmousedown = MvcAlert('Delete'," + json[i].[ModelName].[PropertyName] + ") title='حذف'><span class='glyphicon glyphicon-trash icon'></span></a></td>");
+            $('#tbl-[ModelName] tbody').append(tr);
+        }
+
+        if (data.type != 'none') {
+            Messages(data.type, data.message);
+            $('#Alert').delay(4000).slideUp(300);
+        }
+
+
+        rowcount = data.RowCount;
+    }, 'json');
+
+    return rowcount;
+}
+
+
+
+function LoadData(pageRecord) {
+    var totalRecords = DataRefresh[ModelName](pageRecord, $('#tbl-[ModelName] .page-size').val(), $('#sort-[ModelName]').val());
+
+    Pager(pageRecord, $('#tbl-[ModelName] .page-size').val(), "[ModelName]", totalRecords);
+}
+
+function NewHandler() {
+    $(document).on("click", "#frm-[ModelName] .btnNew", function () {
+        ClearTextbox();
+
+        $('#Alert,#AlertDown').slideUp(300);
+    });
+}
+
+function ClearTextbox() {
+    $('#frm-[ModelName] input[type=text]').each(function () {
+        $(this).val("");
+    });
+
+    $('#[PropertyName]').val("-1");
+    $('#btnSave').html('<span class="glyphicon glyphicon-ok" style="float:right;"></span>ذخیره');
+}
+
+
+
+function CreateHandler() {
+    $(document).select('#frm-[ModelName]').unbind("submit");
+
+    $(document).on("submit", "#frm-[ModelName]", function (e) {
+        e.preventDefault();
+
+        Ajax('Post', '/WarehouseSchema/[ModelName]/_Create', $('#frm-[ModelName]').serialize(), function (data, textStatus, xhr) {
+            Messages(data.type, data.message);
+            ClearTextbox();
+
+            if ($('#tbl-[ModelName] .page-record').val() == null)
+                LoadData(1);
+            else
+                LoadData($('#tbl-[ModelName] .page-record').val());
+
+        }, 'json');
+    });
+}
+
+function Update(id) {
+    $('#Alert,#AlertDown').slideUp(300);
+    LoadPartialView('POST', '/WarehouseSchema/[ModelName]/_Update', { [PropertyName]: id }, '#FormContainer');
+}
+
+
+
+function Delete(id) {
+    Ajax('Post', '/WarehouseSchema/[ModelName]/_Delete', { [PropertyName]: id }, function (data, textStatus, xhr) {
+        Messages(data.type, data.message);
+        var pageRecord = 1;
+
+        if ($('#tbl-[ModelName] tbody tr').length != 2) {
+            pageRecord = $('#tbl-[ModelName] .page-record').val();
+        }
+        else {
+            if ($('#tbl-[ModelName] .page-record').val() != 1)
+                pageRecord = $('#tbl-[ModelName] .page-record').val() - 1;
+        }
+
+        LoadData(pageRecord);
+    }, 'json');
+}

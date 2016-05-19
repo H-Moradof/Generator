@@ -1,0 +1,47 @@
+﻿using System;
+using System.Linq;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+[DomainModelsEntitiesSchemas]
+
+
+namespace DatabaseContext.Context
+{
+	public class [DatabaseContextName] : DbContext, IUnitOfWork
+	{
+
+		#region ctor
+
+		public DatabaseContext(): 
+			base("[TargetDatabaseName]")
+		{}
+
+		
+		static DatabaseContext()
+		{
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Migrations.Configuration>());
+		}
+
+		#endregion
+
+
+
+		#region props
+
+		public DbSet<[TableSingleName]> [TablePluralName] { get; set; }
+
+		#endregion
+
+
+
+		#region unitofwork members
+		public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
+		{
+			return base.Set<TEntity>();
+		}
+		#endregion
+
+        
+	}
+
+}

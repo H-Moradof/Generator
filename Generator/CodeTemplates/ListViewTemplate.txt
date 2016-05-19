@@ -1,0 +1,41 @@
+﻿@model IEnumerable<[ListViewModel]_VM>
+
+
+
+<div class="col-lg-12">
+
+    [SortColumn]
+
+    <!------------- Start Table ----------------------->
+    <div class="row">
+        <div class="col-lg-12 content-grid">
+            <form id="frm-tbl-List[ModelName]">
+                <table class="tbl-grid" id="tbl-List[ModelName]">
+                    <thead>
+                        <tr>
+                           [HeadRow]
+                            <th data-th='ویرایش/حذف'>ویرایش/حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                           [BodyRow]
+
+                            <td data-th='ویرایش/حذف'></td>
+                        </tr>
+
+                        
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            [CountRow]
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!------------- End Table ----------------------->

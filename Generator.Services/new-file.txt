@@ -1,0 +1,5 @@
+hi,
+this is my new file.
+can you see that in your local VS ?
+
+yes !

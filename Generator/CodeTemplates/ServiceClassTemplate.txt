@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using [DATABASECONTEXT_CONTEXT_NAMESPACE_NAME];
+using [ENTITIES_NAMESPACE_NAME];
+using [SERVICES_INTERFACES_NAMESPACE_NAME];
+using [VIEWMODEL_LAYER_NAME].[SchemaName].[TableSingleName]VM;
+using [ENTITIES_NAMESPACE_NAME].[SchemaName];
+using Infrastracture.AppCode;
+using [SERVICES_CLASS_NAMESPACE_NAME];
+using [SERVICES_INTERFACES_NAMESPACE_NAME].[SchemaName];
+[Using_Join_Entities]
+
+namespace [SERVICES_CLASS_NAMESPACE_NAME]
+{
+    public class [TableSingleName]Service : GenericService<[TableSingleName]>, I[TableSingleName]Service
+    {
+		#region ctor
+        
+		public [TableSingleName]Service(IUnitOfWork uow)
+            : base(uow)
+        {  }
+
+		#endregion
+
+
+		#region GetAll
+
+        public IEnumerable<List[TableSingleName]_VM> GetAll(List[TableSingleName]_VM [TableSingleNameCamelCase]_VM, ref Paging pg)
+        {
+            DynamicFiltering.GetFilter<List[TableSingleName]_VM>([TableSingleNameCamelCase]_VM, ref pg);
+			
+			[GetAllJoinClause]
+
+            if (!string.IsNullOrEmpty(pg._filter))
+                result = result.Where(pg._filter, pg._values.ToArray());
+
+            pg._rowCount = result.Count();
+            result = result.OrderBy(pg._orderColumn).Skip((pg._pageNumber - 1) * pg._pageSize).Take(pg._pageSize);
+			
+            return result.AsEnumerable().Select(Result => new List[TableSingleName]_VM()
+            {
+                [GetAllSelectClause]
+            });
+        }
+
+		#endregion
+
+    }
+}

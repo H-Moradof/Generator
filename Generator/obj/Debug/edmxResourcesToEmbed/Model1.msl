@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GeneratorModelStoreContainer" CdmEntityContainer="GeneratorEntities">
+    <EntitySetMapping Name="Titles">
+      <EntityTypeMapping TypeName="GeneratorModel.Title">
+        <MappingFragment StoreEntitySet="Titles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Single" ColumnName="Single" />
+          <ScalarProperty Name="Plural" ColumnName="Plural" />
+          <ScalarProperty Name="Meaning" ColumnName="Meaning" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

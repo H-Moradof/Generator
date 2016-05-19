@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using [VIEWMODEL_LAYER_NAME].[SchemaName].[TableSingleName]VM;
+using [ENTITIES_NAMESPACE_NAME].[SchemaName];
+using Infrastracture.AppCode;
+
+namespace [SERVICES_INTERFACES_NAMESPACE_NAME].[SchemaName]
+{
+    public interface I[TableSingleName]Service : IGenericService<[TableSingleName]>
+    {
+        IEnumerable<List[TableSingleName]_VM> GetAll(List[TableSingleName]_VM [TableSingleNameLowerCase]_VM, ref Paging pg);
+    }
+}

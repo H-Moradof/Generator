@@ -1,0 +1,156 @@
+﻿using System;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+using [DATABASECONTEXT_CONTEXT_NAMESPACE_NAME];
+using [ENTITIES_NAMESPACE_NAME];
+using [SERVICES_INTERFACES_NAMESPACE_NAME];
+using [SERVICES_INTERFACES_NAMESPACE_NAME].[SchemaName];
+using [VIEWMODEL_LAYER_NAME];
+using [VIEWMODEL_LAYER_NAME].[SchemaName].[TableSingleName]VM;
+using [VIEWMODEL_LAYER_NAME].Other;
+using Web.Utilities.AppCode;
+using Infrastracture.AppCode;
+
+namespace Web.Areas.[SchemaName].Controllers
+{
+    public class [TableSingleName]Controller : Controller
+    {
+        [ControllerDependencyPropsAndCunstructorClause]
+
+        public PartialViewResult _Index()
+        {
+            return PartialView();
+        }
+
+
+		#region _List
+
+        [HttpGet]
+        public PartialViewResult _List()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult _List(List[TableSingleName]_VM [TableSingleNameCamelCase]_VM, Paging _Pg)
+        {
+            try
+            {
+                return Json(new { Values = JsonConvert.SerializeObject(_[TableSingleNameCamelCase]Service.GetAll([TableSingleNameCamelCase]_VM, ref _Pg), Formatting.Indented), RowCount = _Pg._rowCount, type = AlarmType.none.ToString() });
+            }
+            catch (Exception)
+            {
+                return Json(new { Values = new JavaScriptSerializer().Serialize(""), RowCount = 0, type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorLoadData) });
+            }
+        }
+
+		#endregion
+
+
+		#region _Create
+
+        public PartialViewResult _Create()
+        {
+            Create[TableSingleName]_VM [TableSingleNameCamelCase] = new Create[TableSingleName]_VM();
+			[LoadRelationViewModelEntitiesClause_3Tab]
+
+            ViewBag.Id = "-1";
+            return PartialView([TableSingleNameCamelCase]);
+        }
+
+        [HttpPost]
+        public JsonResult _Create(Create[TableSingleName]_VM create[TableSingleName])
+        {
+            try
+            {
+                if (!ModelState.IsValid || !Request.IsAjaxRequest())
+                    return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ALLFieldsRequired) });
+
+                long? isInsert = create[TableSingleName].[TableSingleName].[TableSingleName]ID;
+
+                if (isInsert == -1)
+                    _[TableSingleNameCamelCase]Service.Insert(create[TableSingleName].[TableSingleName]);
+                else
+                    _[TableSingleNameCamelCase]Service.Update(create[TableSingleName].[TableSingleName]);
+
+                var userId = HttpContext.GetUserId();
+
+                if (_uow.SaveChanges(userId) > 0)
+                {
+                    if (isInsert == -1)
+                        return Json(new { type = AlarmType.success.ToString(), message = Messages.GetMsg(MsgKey.SuccessInsert) });
+                    else
+                        return Json(new { type = AlarmType.info.ToString(), message = Messages.GetMsg(MsgKey.SuccessUpdate) });
+                }
+                else
+                {
+                    if (isInsert == -1)
+                        return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorInsert) });
+                    else
+                        return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorUpdate) });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorSystem) });
+            }
+        }
+
+		#endregion
+
+
+		#region _Update
+
+        [HttpPost]
+        public PartialViewResult _Update(Int64 id)
+        {
+            try
+            {
+                Create[TableSingleName]_VM [TableSingleNameCamelCase] = new Create[TableSingleName]_VM();
+				[LoadRelationViewModelEntitiesClause_4Tab]
+                [TableSingleNameCamelCase].[TableSingleName] = _[TableSingleNameCamelCase]Service.Find(id);
+
+                return PartialView("_Create", [TableSingleNameCamelCase]);
+            }
+            catch (Exception)
+            {
+                ViewBag.error = Messages.GetMsg(MsgKey.ErrorSystem);
+                return PartialView("_Create", new Create[TableSingleName]_VM());
+            }
+        }
+
+		#endregion
+
+
+		#region _Delete
+
+        [HttpPost]
+        public JsonResult _Delete(Int64 id)
+        {
+            try
+            {
+                if (!ModelState.IsValidField("Id") || !Request.IsAjaxRequest())
+                    return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorSystem) });
+
+                _[TableSingleNameCamelCase]Service.Delete(id);
+
+                var userId = HttpContext.GetUserId();
+
+                if (_uow.SaveChanges(userId) > 0)
+                    return Json(new { type = AlarmType.success.ToString(), message = Messages.GetMsg(MsgKey.SuccessDelete) });
+                else
+                    return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorDelete) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { type = AlarmType.danger.ToString(), message = Messages.GetMsg(MsgKey.ErrorSystem) });
+            }
+        }
+
+		#endregion
+	}
+}
