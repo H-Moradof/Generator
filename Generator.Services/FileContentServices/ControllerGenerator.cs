@@ -1,6 +1,6 @@
 ﻿using Generator.Entities.DatabaseEntities;
 using Generator.Services.Interfaces;
-using Generator.Settings;
+using Generator.Settings.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

@@ -41,7 +41,7 @@ namespace Generator.Services.FileContentServices
 
             foreach (var item in _Relation)
             {
-                TableNameInfo tableName = GeneratorDatabase.Titles.Where(c => c.Single == item.ReferenceTableName || c.Plural == item.ReferenceTableName).FirstOrDefault();
+                TableNameInfo tableName = GeneratorDatabaseProcessor.Titles.Where(c => c.Single == item.ReferenceTableName || c.Plural == item.ReferenceTableName).FirstOrDefault();
                 string singleRelationName = ((tableName != null) ? tableName.Single : item.ReferenceTableName);
                 string pluralNameTable = ((tableName != null) ? tableName.Plural : item.ReferenceTableName);
 

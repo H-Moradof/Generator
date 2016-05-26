@@ -52,8 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneratorConstsSettingsManager.cs" />
-    <Compile Include="GeneratorStaticSettingsManager.cs" />
+    <Compile Include="Entities\EntitiesCodeGeneratorSettings.cs" />
+    <Compile Include="Core\GeneratorConstsSettingsManager.cs" />
+    <Compile Include="Core\GeneratorStaticSettingsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

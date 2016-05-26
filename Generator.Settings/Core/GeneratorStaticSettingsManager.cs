@@ -1,19 +1,16 @@
 ﻿using Generator.Entities.DatabaseEntities;
 using Generator.Entities.Enums;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Generator.Settings
+namespace Generator.Settings.Core
 {
     public static partial class GeneratorSettingsManager
     {
         // settings
         public static GenerateAreaMode GENERATE_AREA_MODE { get; private set; }
-        public static AttributesContentType ATTRIBUTE_CONTENT_TYPE { get; private set; }
+        public static AttributesLanguageMode ATTRIBUTE_CONTENT_TYPE { get; private set; }
         public static string TARGET_DATABASE_NAME { get; private set; }
         public static string TARGET_DATABASE_CONNECTION_STRING { get; private set; }
         public static string DESTINATION_PATH { get; private set; }
@@ -24,7 +21,7 @@ namespace Generator.Settings
             string targetDatabaseName,
             string destinationPath,
             GenerateAreaMode generateAreaMode,
-            AttributesContentType attributesContentType)
+            AttributesLanguageMode attributesContentType)
         {
             ATTRIBUTE_CONTENT_TYPE = attributesContentType;
             GENERATE_AREA_MODE = generateAreaMode;

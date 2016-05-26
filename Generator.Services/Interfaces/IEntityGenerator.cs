@@ -29,7 +29,7 @@ namespace Generator.Services.Interfaces
             string TableSchemaName,
             string tableSingleName,
             string tablePluralName,
-            AttributesContentType attributesContentType);
+            AttributesLanguageMode attributesContentType);
         
     }
 }

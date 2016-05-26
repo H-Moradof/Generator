@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using Generator.Services.Interfaces;
-using Generator.Settings;
+using Generator.Settings.Core;
 
 namespace Generator.Services.FileContentServices
 {

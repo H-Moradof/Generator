@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Hamid Projects\Working Projects\Generator\Generator_v11.4_[moradof]\Generator.DatabaseContext\EfModelContext.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Hamid Projects\Working Projects\Generator\Generator_v11.5_[moradof]\Generator.DatabaseContext\EfModelContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

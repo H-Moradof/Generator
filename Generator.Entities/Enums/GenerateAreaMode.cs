@@ -5,7 +5,7 @@
     /// </summary>
     public enum GenerateAreaMode
     {
-        SeperateAreas,
+        SeperatedAreas,
         OneAreas
     }
 }

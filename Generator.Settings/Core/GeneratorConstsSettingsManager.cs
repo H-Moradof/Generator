@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace Generator.Settings
+namespace Generator.Settings.Core
 {
     public static partial class GeneratorSettingsManager
     {

@@ -261,3 +261,24 @@ D:\Hamid Projects\Working Projects\Generator\Generator_v11.5_[moradof]\Generator
 D:\Hamid Projects\Working Projects\Generator\Generator_v11.5_[moradof]\Generator\bin\Debug\Generator.DatabaseContext.pdb
 D:\Hamid Projects\Working Projects\Generator\Generator_v11.5_[moradof]\Generator\obj\Debug\Generator.exe
 D:\Hamid Projects\Working Projects\Generator\Generator_v11.5_[moradof]\Generator\obj\Debug\Generator.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.csprojResolveAssemblyReference.cache
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.MainForm.resources
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.Properties.Resources.resources
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.csproj.GenerateResource.Cache
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.exe.config
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.exe
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\EntityFramework.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\EntityFramework.SqlServer.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Entities.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Services.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Settings.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.DatabaseContext.dll
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Entities.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Services.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.Settings.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\EntityFramework.xml
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\EntityFramework.SqlServer.xml
+D:\Hamid Projects\MyGit\Generator\Generator\bin\Debug\Generator.DatabaseContext.pdb
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.exe
+D:\Hamid Projects\MyGit\Generator\Generator\obj\Debug\Generator.pdb

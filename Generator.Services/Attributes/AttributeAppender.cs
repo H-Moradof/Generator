@@ -1,7 +1,6 @@
 ﻿using Generator.Entities.DatabaseEntities;
-using Generator.Entities.Enums;
 using Generator.Services.FileContentServices;
-using Generator.Settings;
+using Generator.Settings.Core;
 using System.Text;
 
 namespace Generator.Services.Attributes
@@ -17,7 +16,7 @@ namespace Generator.Services.Attributes
         /// <param name="newEntityClassContent"></param>
         /// <param name="nullPropAdditionalCharacter"></param>
         /// <param name="targetTableProperty"></param>
-        public static void AppendRequiredAttribute(ref StringBuilder newEntityClassContent, ref string nullPropAdditionalCharacter, TableFieldInfo targetTableProperty)
+        public static void AppendRequiredAttribute(ref StringBuilder newEntityClassContent, ref bool isPropertyNullable , TableFieldInfo targetTableProperty)
         {
             if (targetTableProperty.Nullable == "NO")
             {
@@ -25,7 +24,7 @@ namespace Generator.Services.Attributes
             }
             else if (TargetDatabaseDataReceiver.GetColumnType(targetTableProperty.Type) != "string")
             {
-                nullPropAdditionalCharacter = "?";
+                isPropertyNullable = true;
             }
         }
 

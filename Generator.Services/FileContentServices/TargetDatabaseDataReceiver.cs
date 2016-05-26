@@ -1,5 +1,6 @@
 ﻿using Generator.Entities.DatabaseEntities;
 using Generator.Services.Database;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Generator.Services.FileContentServices
         /// </summary>
         public static IList<TableFieldInfo> GetTargetTableProperties(string dbName, string tableName, string connectionString)
         {
-            return  new DbContext(connectionString).Database.SqlQuery<TableFieldInfo>("use " + dbName + " select COLUMN_NAME AS Name, IS_NULLABLE AS Nullable , DATA_TYPE AS [Type],CHARACTER_MAXIMUM_LENGTH AS [Length] from INFORMATION_SCHEMA.COLUMNS where Table_Name = '" + tableName + "' ").ToList();
+            return new DbContext(connectionString).Database.SqlQuery<TableFieldInfo>("use " + dbName + " select COLUMN_NAME AS Name, IS_NULLABLE AS Nullable , DATA_TYPE AS [Type],CHARACTER_MAXIMUM_LENGTH AS [Length] from INFORMATION_SCHEMA.COLUMNS where Table_Name = '" + tableName + "' ").ToList();
         }
 
 
@@ -50,48 +51,28 @@ WHERE T.TableName = '" + tableName + "' OR T.ReferenceTableName = '" + tableName
         /// </summary>
         public static string GetColumnType(string propertyName)
         {
-            string type = "";
-
             switch (propertyName)
             {
-                case "int":
-                case "tinyint":
-                    type = "int";
-                    break;
-
-                case "bigint":
-                    type = "long";
-                    break;
-
-                case "nvarchar":
-                case "varchar":
-                    type = "string";
-                    break;
-
-                case "datetime":
-                case "date":
-                    type = "DateTime";
-                    break;
-
-                case "bit":
-                    type = "bool";
-                    break;
-
-                case "uniqueidentifier":
-                    type = "Guid";
-                    break;
-
-                case "ntext":
-                    type = "string";
-                    break;
-
-                case "nchar":
-                    type = "string";
-                    break;
-                    
+                case "tinyint"  : return "byte";
+                case "smallint" : return "short";
+                case "bigint"   : return "long";
+                case "int"      : return "int";
+                case "decimal"  : return "decimal";
+                case "time":
+                case "datetime" :
+                case "date"     : return "DateTime";
+                case "bit"      : return "bool";
+                case "uniqueidentifier": return "Guid";
+                case "nvarchar" :
+                case "varchar"  :
+                case "ntext"    :
+                case "nchar"    :
+                case "char"     : return "string";
+                case "geography": return "DbGeography";
+                
+                default:
+                    throw new Exception("propertyName is invalid. value is " + propertyName);
             }
-
-            return type;
         }
 
 
@@ -100,7 +81,7 @@ WHERE T.TableName = '" + tableName + "' OR T.ReferenceTableName = '" + tableName
         /// </summary>
         public static string GetTableSingleName(string tableName)
         {
-            var tableSingleName = GeneratorDatabase.Titles.Where(c => c.Single == tableName || c.Plural == tableName).FirstOrDefault();
+            var tableSingleName = GeneratorDatabaseProcessor.Titles.Where(c => c.Single == tableName || c.Plural == tableName).FirstOrDefault();
 
             if (tableSingleName != null)
                 return tableSingleName.Single;

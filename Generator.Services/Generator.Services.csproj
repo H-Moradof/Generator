@@ -53,6 +53,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bussiness\Entities\AnnotationAttributes\IgnoreAllGenerateAnnotationAttributesStrategy.cs" />
+    <Compile Include="Bussiness\Entities\AnnotationAttributes\PutAllGenerateAnnotationAttributesStrategy.cs" />
+    <Compile Include="Bussiness\Entities\AnnotationAttributes\GenerateAnnotationAttributesFactory.cs" />
+    <Compile Include="Bussiness\Entities\AnnotationAttributes\IGenerateAnnotationAttributesStrategy.cs" />
+    <Compile Include="Bussiness\Entities\Properties\GeneratePropertyFactory.cs" />
+    <Compile Include="Bussiness\Entities\Properties\IGeneratePropertyStrategy.cs" />
+    <Compile Include="Bussiness\Entities\Properties\PrimaryKeyNameModeFactory.cs" />
+    <Compile Include="Bussiness\Entities\Properties\PrimaryKeyNameStrategies.cs" />
+    <Compile Include="Bussiness\Entities\Properties\IPrimaryKeyNameStrategy.cs" />
+    <Compile Include="Bussiness\Entities\Properties\GeneratePropertyStrategies.cs" />
+    <Compile Include="Bussiness\Entities\TableAttribute\GenerateTableAttributeFactory.cs" />
+    <Compile Include="Bussiness\Entities\TableAttribute\PutGenerateTableAttributeStrategy.cs" />
+    <Compile Include="Bussiness\Entities\TableAttribute\IgnoreGenerateTableAttributeStrategy.cs" />
+    <Compile Include="Bussiness\Entities\TableAttribute\IGenerateTableAttributeStrategy.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Interfaces\IViewModelGenerator.cs" />
     <Compile Include="Interfaces\IControllerGenerator.cs" />
@@ -63,7 +77,7 @@
     <Compile Include="Attributes\AttributeAppender.cs" />
     <Compile Include="FileContentServices\ControllerGenerator.cs" />
     <Compile Include="FileContentServices\EntityGenerator.cs" />
-    <Compile Include="Database\GeneratorDatabase.cs" />
+    <Compile Include="Database\GeneratorDatabaseProcessor.cs" />
     <Compile Include="FileContentServices\ServiceGenerator.cs" />
     <Compile Include="FileContentServices\TargetDatabaseDataReceiver.cs" />
     <Compile Include="FileContentServices\ViewGenerator.cs" />
@@ -90,6 +104,7 @@
   <ItemGroup>
     <Content Include="new-file.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

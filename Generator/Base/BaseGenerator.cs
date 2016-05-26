@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Generator.Entities.Enums;
-using Generator.Settings;
+﻿using Generator.Entities.Enums;
+using Generator.Settings.Core;
 
 namespace Generator.Base
 {
@@ -9,6 +8,13 @@ namespace Generator.Base
     /// </summary>
     public abstract class BaseGenerator
     {
+        private readonly BaseGeneratorDatabaseCreator _baseGeneratorDatabaseCreator;
+
+        public BaseGenerator(BaseGeneratorDatabaseCreator baseGeneratorDatabaseCreator)
+        {
+            _baseGeneratorDatabaseCreator = baseGeneratorDatabaseCreator;
+        }
+
         /// <summary>
         /// متد اصلی اجرای جنریتور
         /// </summary>
@@ -16,13 +22,13 @@ namespace Generator.Base
         /// <param name="destinationPath"></param>
         /// <param name="generateAreaMode"></param>
         /// <param name="attributesContentType"></param>
-        protected void Run(string targetDatabaseName, string destinationPath, GenerateAreaMode generateAreaMode, AttributesContentType attributesContentType)
+        protected void Run(string targetDatabaseName, string destinationPath, GenerateAreaMode generateAreaMode, AttributesLanguageMode attributesContentType)
         {
             // تنظیم اطلاعات پایه
-            GeneratorSettingsManager.SetGeneratorInformations(targetDatabaseName, destinationPath, generateAreaMode, attributesContentType);
+             GeneratorSettingsManager.SetGeneratorInformations(targetDatabaseName, destinationPath, generateAreaMode, attributesContentType);
 
             // ساخت دیتابیس جنریتور
-            CreateGeneratorDatabase();
+            _baseGeneratorDatabaseCreator.CreateGeneratorDatabase();
 
             // تکمیل اسامی جداول دیتابیس جنریتور
             CompleteGeneratorDatabase();
@@ -30,6 +36,8 @@ namespace Generator.Base
             // ----- ساخت کدهای لایه های مختلف -----
             CreateFolders(LayerFolder.Entities);
             CreateEntitiesLayer();
+
+
             //CreateFolders(LayerFolder.Services);
             //CreateServicesLayer();
             //CreateFolders(LayerFolder.ViewModels);
@@ -41,11 +49,6 @@ namespace Generator.Base
             //CreateFolders(LayerFolder.IntegrationTests);
             //CreateIntegrationTestsLayer();
         }
-
-        /// <summary>
-        /// ساخت دیتابیس جنریتور
-        /// </summary>
-        protected abstract void CreateGeneratorDatabase();
 
         /// <summary>
         /// تکمیل دیتابیس جنریتور از روی پراپرتی های دیتابیس هدف

@@ -1,7 +1,7 @@
 ﻿using Generator.DatabaseContext;
 using Generator.Entities.DatabaseEntities;
 using Generator.Services.FileContentServices;
-using Generator.Settings;
+using Generator.Settings.Core;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,9 +9,9 @@ using System.Linq;
 namespace Generator.Services.Database
 {
     /// <summary>
-    /// جمع آوری اطلاعات دیکشنری فیلد ها
+    /// تکمیل کننده اطلاعات اسامی فیلدهای جدید در دیتابیس جنریتور
     /// </summary>
-    public static class GeneratorDatabase
+    public static class GeneratorDatabaseProcessor
     {
         /// <summary>
         /// اطلاعات نام فیلدهای دیتابیس هدف جهت جلوگیری از اتصال مکرر به دیتابیس جنریتور
@@ -24,7 +24,7 @@ namespace Generator.Services.Database
         /// </summary>
         public static void CompleteGeneratorDatabase()
         {
-            GeneratorDatabase.SetTableNames();
+            GeneratorDatabaseProcessor.SetTableNames();
 
             DbContext en = new DbContext(GeneratorSettingsManager.TARGET_DATABASE_CONNECTION_STRING);
             var targetDatabaseTables = en.Database
@@ -35,30 +35,35 @@ namespace Generator.Services.Database
                 " TABLE_NAME != '__MigrationHistory'")
                 .ToList();
 
-            GeneratorEntities enGenerator = new GeneratorEntities();
 
-            foreach (var item in targetDatabaseTables)
+            using (GeneratorEntities enGenerator = new GeneratorEntities())
             {
-                if (!GeneratorDatabase.Titles.Any(c => c.Plural.ToLower() == item.TableName.ToLower() || c.Single.ToLower() == item.TableName.ToLower()))
-                {
-                    enGenerator.Titles.Add(new Title { Single = item.TableName, Plural = item.TableName });
-                    GeneratorDatabase.Titles.Add(new TableNameInfo { Single = item.TableName, Plural = item.TableName });
-                }
+                var dd = enGenerator.Titles.ToList();
 
-                // گرفتن خصوصیت جدول
-                var _Property = TargetDatabaseDataReceiver.GetTargetTableProperties(GeneratorSettingsManager.TARGET_DATABASE_NAME, item.TableName, GeneratorSettingsManager.TARGET_DATABASE_CONNECTION_STRING);
 
-                foreach (var prop in _Property)
+                foreach (var item in targetDatabaseTables)
                 {
-                    if (!GeneratorDatabase.Titles.Any(c => c.Single.ToLower() == prop.Name.ToLower()))
+                    if (!GeneratorDatabaseProcessor.Titles.Any(c => c.Plural.ToLower() == item.TableName.ToLower() || c.Single.ToLower() == item.TableName.ToLower()))
                     {
-                        enGenerator.Titles.Add(new Title { Single = prop.Name, Plural = prop.Name });
-                        GeneratorDatabase.Titles.Add(new TableNameInfo { Single = prop.Name, Plural = prop.Name });
+                        enGenerator.Titles.Add(new Title { Single = item.TableName, Plural = item.TableName });
+                        GeneratorDatabaseProcessor.Titles.Add(new TableNameInfo { Single = item.TableName, Plural = item.TableName });
                     }
+
+                    // گرفتن خصوصیت جدول
+                    var _Property = TargetDatabaseDataReceiver.GetTargetTableProperties(GeneratorSettingsManager.TARGET_DATABASE_NAME, item.TableName, GeneratorSettingsManager.TARGET_DATABASE_CONNECTION_STRING);
+
+                    foreach (var prop in _Property)
+                    {
+                        if (!GeneratorDatabaseProcessor.Titles.Any(c => c.Single.ToLower() == prop.Name.ToLower()))
+                        {
+                            enGenerator.Titles.Add(new Title { Single = prop.Name, Plural = prop.Name });
+                            GeneratorDatabaseProcessor.Titles.Add(new TableNameInfo { Single = prop.Name, Plural = prop.Name });
+                        }
+                    }
+
+                    enGenerator.SaveChanges();
+
                 }
-
-                enGenerator.SaveChanges();
-
             }
 
         }

@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Generator.Services.Database;
-using Generator.Services.Attributes;
+using Generator.Settings.Entities;
+using Generator.Services.Bussiness.Entities.AnnotationAttributes;
+using Generator.Services.Bussiness.Entities.Properties;
+using Generator.Services.Bussiness.Entities.TableAttribute;
 
 namespace Generator.Services.FileContentServices
 {
@@ -18,7 +21,7 @@ namespace Generator.Services.FileContentServices
 
         private IEnumerable<RelationSchemaInfo> TargetTableRelations;
         private IEnumerable<TableFieldInfo> TargetTableProperties;
-        private AttributesContentType AttributesContentType;
+        private AttributesLanguageMode AttributesLanguageMode;
         private StringBuilder NewEntityClassContent;
 
         public EntityGenerator()
@@ -40,9 +43,9 @@ namespace Generator.Services.FileContentServices
             string TableSchemaName, 
             string tableSingleName, 
             string tablePluralName,
-            AttributesContentType attributesContentType)
+            AttributesLanguageMode attributesLanguageMode)
         {
-            this.AttributesContentType = attributesContentType;
+            this.AttributesLanguageMode = attributesLanguageMode;
 
             // گرفتن خصوصیات جدول جاری
             this.TargetTableProperties = TargetDatabaseDataReceiver.GetTargetTableProperties(targetDbName, targetTableName, targetTableConnectionString);
@@ -54,22 +57,25 @@ namespace Generator.Services.FileContentServices
             AppendUsingsAndClassName(entitiesNameSpaceName, TableSchemaName, tableSingleName, tablePluralName, "");
 
             //-----------------------------------------------------------------------------------------
+            IPrimaryKeyNameStrategy pkNameStrategy = PrimaryKeyNameModeFactory.GetStrategy(EntitiesCodeGeneratorSettings.PrimaryKeyNameMode);
+            string pkName = string.Empty;
+            
             // تخصیص خصوصیت به جدول
             foreach (var targetTableProperty in this.TargetTableProperties)
             {
-                AppendProperties(targetTableProperty, tableSingleName + "ID");
+                pkName = pkNameStrategy.GetTablePrimaryKeyName(tableSingleName);
+                AppendProperties(targetTableProperty, pkName);
             }
 
-            // project usings
             AppendProjectNameSpacesUsings(targetSchemaName);
 
-            // Navigation Properties
-            AppendNavigationProperties(targetTableName);
+            if (EntitiesCodeGeneratorSettings.NavigatePropertyGenerateMode == NavigatePropertyGenerateMode.PutNavigateProperties)
+                AppendNavigationProperties(targetTableName);
 
-            NewEntityClassContent.Append("\n\t}\n}");
+            this.NewEntityClassContent.Append("\n\t}\n}");
 
             string result = NewEntityClassContent.ToString();
-            NewEntityClassContent = new StringBuilder(string.Empty);
+            this.NewEntityClassContent = new StringBuilder(string.Empty);
 
             return result;
         }
@@ -111,20 +117,17 @@ namespace Generator.Services.FileContentServices
 
             // گرفتن معنی پراپرتی
             string columnTranslatedName = string.Empty;
-            var columnMeaning = GeneratorDatabase.Titles.FirstOrDefault(c => c.Single == targetTableProperty.Name || c.Plural == targetTableProperty.Name);
+            var columnMeaning = GeneratorDatabaseProcessor.Titles.FirstOrDefault(c => c.Single == targetTableProperty.Name || c.Plural == targetTableProperty.Name);
             if (columnMeaning != null) columnTranslatedName = columnMeaning.Meaning;
 
-            string nullPropAdditionalCharacter = string.Empty;
+            // append properties
+            bool isPropertyNullable = false;
+            IGenerateAnnotationAttributesStrategy annotationAttributesStategy = GenerateAnnotationAttributesFactory.GetStrategy(EntitiesCodeGeneratorSettings.DataAnnotationAttributeGenerateMode);
+            annotationAttributesStategy.AppendAttributes(ref NewEntityClassContent, ref isPropertyNullable, columnTranslatedName, targetTableProperty);
 
-            AttributeAppender.AppendDisplayNameAttribute(ref NewEntityClassContent, columnTranslatedName);
-            AttributeAppender.AppendRequiredAttribute(ref NewEntityClassContent, ref nullPropAdditionalCharacter, targetTableProperty);
-            AttributeAppender.AppendStringLengthAttribute(ref NewEntityClassContent, targetTableProperty);
-            AttributeAppender.AppendScaffoldColumnAttribute(ref NewEntityClassContent, targetTableProperty);
-            AttributeAppender.AppendEmailAddressAttribute(ref NewEntityClassContent, targetTableProperty);
-            AttributeAppender.AppendScaffoldColumnAttribute(ref NewEntityClassContent, targetTableProperty);
-            AttributeAppender.AppendDataTypeAttribute(ref NewEntityClassContent, targetTableProperty);
-
-            NewEntityClassContent.Append("\t\tpublic virtual " + TargetDatabaseDataReceiver.GetColumnType(targetTableProperty.Type) + nullPropAdditionalCharacter + " " + targetTableProperty.Name + " { get; set; }\n\n");
+            // create property
+            IGeneratePropertyStrategy generatePropertyStrategy = GeneratePropertyFactory.GetStrategy(EntitiesCodeGeneratorSettings.VirtualizePropertiesMode);
+            generatePropertyStrategy.AppendProperty(ref NewEntityClassContent, TargetDatabaseDataReceiver.GetColumnType(targetTableProperty.Type), targetTableProperty.Name, isPropertyNullable);
         }
 
         #endregion
@@ -134,7 +137,8 @@ namespace Generator.Services.FileContentServices
 
         private void AppendNavigationProperties(string targetTableName)
         {
-            NewEntityClassContent.Append("\n\t\t#region Navigation Properties\n\n");
+            if(EntitiesCodeGeneratorSettings.RegionGenerateMode == RegionGenerateMode.PutRegions)
+                NewEntityClassContent.Append("\n\t\t#region Navigation Properties\n\n");
 
             foreach (var targetTableRelation in this.TargetTableRelations)
             {
@@ -169,7 +173,8 @@ namespace Generator.Services.FileContentServices
                 NewEntityClassContent.Append("\n");
             }
 
-            NewEntityClassContent.Append("\t\t#endregion");
+            if (EntitiesCodeGeneratorSettings.RegionGenerateMode == RegionGenerateMode.PutRegions)
+                NewEntityClassContent.Append("\t\t#endregion");
         }
 
         #endregion
@@ -179,13 +184,37 @@ namespace Generator.Services.FileContentServices
 
         private void AppendUsingsAndClassName(string entitiesNameSpaceName, string TableSchemaName, string tableSingleName, string tablePluralName, string createTablesMode)
         {
-            string tableNameInDatabase = tableSingleName;
-            string classEntity = "using System;\nusing System.Collections.Generic;\nusing System.ComponentModel;\nusing System.ComponentModel.DataAnnotations;\nusing System.ComponentModel.DataAnnotations.Schema;";
-            classEntity += "\n\nnamespace " + entitiesNameSpaceName + "." + TableSchemaName + "\n{";
-            classEntity += "\n\t[Table(\"" + tableNameInDatabase + "\", Schema = \"" + TableSchemaName + "\")]";
-            classEntity += "\n\tpublic class " + tableSingleName + " : BaseEntity \n\t{\n";
 
-            NewEntityClassContent.Append(classEntity);
+            string tableNameInDatabase = tableSingleName;
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("using System;");
+            builder.AppendLine("using System.Collections.Generic;");
+
+            if (EntitiesCodeGeneratorSettings.DataAnnotationAttributeGenerateMode == DataAnnotationAttributeGenerateMode.PutDataAnnotationAttributes
+                || EntitiesCodeGeneratorSettings.TableAttributeGenerateMode == TableAttributeGenerateMode.Put)
+            {
+                builder.AppendLine("using System.ComponentModel;");
+                builder.AppendLine("using System.ComponentModel.DataAnnotations;");
+                builder.AppendLine("using System.ComponentModel.DataAnnotations.Schema;");
+            }
+
+            builder.Append(string.Format("\n\nnamespace {0}.{1} \n{{\n", entitiesNameSpaceName, TableSchemaName));
+
+            IGenerateTableAttributeStrategy strategy = GenerateTableAttributeFactory.GetStrategy(EntitiesCodeGeneratorSettings.TableAttributeGenerateMode);
+            strategy.AppendTableAttribute(ref builder, tableNameInDatabase, TableSchemaName);
+
+            if (EntitiesCodeGeneratorSettings.InheritFromBaseEntityMode == InheritFromBaseEntityMode.Inherit)
+            {
+                builder.AppendLine(string.Format("\tpublic class {0} : BaseEntity \n\t{{\n", tableSingleName));
+            }
+            else if (EntitiesCodeGeneratorSettings.InheritFromBaseEntityMode == InheritFromBaseEntityMode.Ignore)
+            {
+                builder.AppendLine(string.Format("\tpublic class {0} \n\t{{\n", tableSingleName));
+            }
+
+            
+
+            NewEntityClassContent.Append(builder.ToString());
         }
 
         #endregion

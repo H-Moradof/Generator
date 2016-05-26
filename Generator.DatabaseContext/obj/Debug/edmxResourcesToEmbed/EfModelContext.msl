@@ -4,10 +4,10 @@
     <EntitySetMapping Name="Titles">
       <EntityTypeMapping TypeName="GeneratorModel.Title">
         <MappingFragment StoreEntitySet="Titles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Single" ColumnName="Single" />
-          <ScalarProperty Name="Plural" ColumnName="Plural" />
           <ScalarProperty Name="Meaning" ColumnName="Meaning" />
+          <ScalarProperty Name="Plural" ColumnName="Plural" />
+          <ScalarProperty Name="Single" ColumnName="Single" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
