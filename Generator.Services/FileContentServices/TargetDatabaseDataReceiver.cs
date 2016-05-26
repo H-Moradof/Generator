@@ -63,6 +63,7 @@ WHERE T.TableName = '" + tableName + "' OR T.ReferenceTableName = '" + tableName
                 case "date"     : return "DateTime";
                 case "bit"      : return "bool";
                 case "uniqueidentifier": return "Guid";
+                case "varbinary": return "bytr[]";
                 case "nvarchar" :
                 case "varchar"  :
                 case "ntext"    :

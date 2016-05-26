@@ -98,7 +98,8 @@ namespace Generator.Services.FileContentServices
             }
 
             // add BaseEntity namespace
-            entityClassUsings.Append("using DomainModels.Entities.Base;\n");
+            if(EntitiesCodeGeneratorSettings.InheritFromBaseEntityMode == InheritFromBaseEntityMode.Inherit)
+                entityClassUsings.Append("using DomainModels.Entities.Base;\n");
 
             NewEntityClassContent.Insert(0, entityClassUsings.ToString());
         }
