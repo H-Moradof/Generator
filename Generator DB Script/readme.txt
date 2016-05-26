@@ -1,0 +1,1 @@
+before runnig the application, you should create application database with "Generator.sql" file.
