@@ -23,7 +23,7 @@ In image below you can see default path that application generate files. (You ca
 The <b>Generator</b> application create a folder per any schema that you have in your database<br/>
 <img src="https://github.com/H-Moradof/Generator/blob/master/demo_images/schema-folders.jpg" width="500" />
 
-In image below you can see some sample of generated code (don't worry about Persian texts, you can change DisplayName titles from **Generator** database and for other text you must customise source code)<br/>
+In image below you can see some sample of generated codes (don't worry about Persian texts, you can change DisplayName titles from **Generator** database and for other text you must customise source code)<br/>
 <img src="https://github.com/H-Moradof/Generator/blob/master/demo_images/generated-code.jpg" width="500" />
 
 If some piece of codes is not clean, please forgive me.
